@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B0F14">
+<title>Combustible</title>
+<style>
+:root{--bg:#0B0F14;--sf:#131A22;--sf2:#1A2330;--bd:#243041;--tx:#F3F6FA;--mu:#93A3B8;--ac:#FFB020;--act:#1A1200;--tl:#2DD4BF;--dg:#FF6B6B;--hero:#1B1710;color-scheme:dark;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*,*::before,*::after{box-sizing:inherit;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--tx);font:16px/1.35 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.app{max-width:560px;margin:0 auto;padding:0 16px 120px}
+header{display:flex;align-items:center;gap:12px;padding:16px 0 10px}
+.logo{width:44px;height:44px;border-radius:14px;background:var(--ac);color:var(--act);display:grid;place-items:center}
+.logo .i{width:24px;height:24px;stroke:var(--act)}
+header b{font-size:20px;font-weight:800;display:block}header small{color:var(--mu);font-size:12px}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.view{display:none}.view.on{display:block}
+.view.on>*{animation:up .35s both}.view.on>*:nth-child(2){animation-delay:.05s}.view.on>*:nth-child(3){animation-delay:.1s}.view.on>*:nth-child(4){animation-delay:.15s}.view.on>*:nth-child(5){animation-delay:.2s}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes pop{0%{opacity:.35;transform:scale(.93)}60%{transform:scale(1.04)}100%{opacity:1;transform:none}}
+.pop{display:inline-block;animation:pop .35s both}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:24px;padding:16px;margin-bottom:14px}
+.card h2{margin:0 0 12px;font-size:17px;font-weight:800;display:flex;align-items:center;gap:8px}.card h2 .i{color:var(--ac)}
+h3{margin:2px 0 10px;font-size:18px;font-weight:800}
+h1.t{margin:0 0 12px;font-size:22px;font-weight:800}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.fld{flex:1;min-width:140px;margin-bottom:6px}
+.fld label{display:block;color:var(--mu);font-size:13px;font-weight:600;margin-bottom:6px}
+.box{display:flex;align-items:center;gap:4px;min-height:54px;padding:0 14px;background:var(--sf2);border:1.5px solid transparent;border-radius:16px;transition:border-color .2s}
+.box:focus-within{border-color:var(--ac)}.box.err{border-color:var(--dg)}
+.box input{flex:1;min-width:0;background:none;border:0;outline:0;color:var(--tx);font:700 19px system-ui,sans-serif;padding:10px 0}
+.af{color:var(--mu);font-weight:700;font-size:17px}
+.big .box{min-height:66px}.big input{font-size:30px}.big .af{font-size:24px}
+.er{color:var(--dg);font-size:12px;margin:4px 0 0 4px;min-height:0}
+button{font:inherit;color:inherit;border:0;cursor:pointer;transition:transform .12s,opacity .2s,background .2s}
+button:active{transform:scale(.95)}button:disabled{opacity:.4}
+.chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;border-radius:999px;background:var(--sf2);font-weight:700;font-size:14px;white-space:nowrap}
+.chip.on{background:var(--ac);color:var(--act)}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.modes button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:78px;padding:6px;border-radius:16px;background:var(--sf);border:1px solid var(--bd);color:var(--mu);font-size:12px;font-weight:800}
+.modes .i{width:26px;height:26px}.modes button.on{background:var(--ac);border-color:var(--ac);color:var(--act)}
+.tg{display:flex;align-items:center;gap:10px;width:100%;min-height:54px;padding:0 16px;margin-top:12px;border-radius:16px;background:var(--sf2);font-weight:800;font-size:16px;text-align:left}
+.tg span:first-of-type{flex:1}.tg.on{background:var(--tl);color:var(--act)}
+.q{color:var(--mu);font-size:14px;font-weight:600;margin:14px 0 8px}
+.step{display:flex;align-items:center;background:var(--sf2);border-radius:16px;padding:6px}
+.step button{width:56px;height:56px;border-radius:14px;background:var(--bd);display:grid;place-items:center}.step .i{width:28px;height:28px}
+.step span{flex:1;text-align:center;font-size:32px;font-weight:800}
+.hero{border-color:var(--ac);background:var(--hero)}
+.hl{color:var(--mu);font-size:14px;font-weight:600}
+.num{display:block;color:var(--ac);font-weight:800;letter-spacing:-1px;font-size:clamp(34px,11vw,48px);margin-top:4px}
+.sub{margin-top:4px}
+.stats{display:flex;gap:8px;margin-top:16px}
+.stat{flex:1;min-width:0;background:var(--sf2);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:3px}
+.stat .i{width:18px;height:18px;color:var(--tl)}.stat small{color:var(--mu);font-size:11px;font-weight:600}
+.stat b{font-size:clamp(13px,4.3vw,17px);font-weight:800;white-space:nowrap}
+.pp{display:flex;align-items:center;gap:10px}.pp>div{flex:1}.pp b{display:block}.pp small{color:var(--mu);font-size:12px}
+.pp .v{color:var(--tl);font-size:clamp(24px,8vw,30px);font-weight:800}
+.warn{display:flex;gap:12px;align-items:center;border-color:var(--dg)}.warn .i{width:24px;height:24px;color:var(--dg)}
+.warn small{display:block;color:var(--mu);font-size:13px;margin-top:2px}
+.cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:56px;border-radius:16px;background:var(--ac);color:var(--act);font-weight:800;font-size:16px;margin-top:6px}
+.cta.ok{background:var(--tl)}.cta.sec{background:var(--sf2);color:var(--tx)}
+.top{display:flex;align-items:center;gap:10px}.top>div{flex:1}.top small{display:block;color:var(--mu);font-size:12px}.mu{color:var(--mu)}
+.ib{width:44px;height:44px;border-radius:14px;background:var(--sf2);color:var(--dg);display:grid;place-items:center}
+.ib.arm{background:var(--dg);color:var(--act)}
+.tot{color:var(--ac);font-size:30px;font-weight:800;margin:6px 0}
+.grid{display:flex;flex-wrap:wrap;gap:8px}.grid div{flex:1 1 45%;background:var(--sf2);border-radius:12px;padding:10px}
+.grid small{display:flex;align-items:center;gap:5px;color:var(--mu);font-size:11px;font-weight:600}.grid .i{width:15px;height:15px;color:var(--tl)}
+.grid b{font-size:15px;font-weight:800}
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.hd h1{margin:0}
+.pill{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 12px;border-radius:999px;background:var(--sf);color:var(--dg);font-weight:700;font-size:13px}
+.pill.arm{background:var(--dg);color:var(--act)}
+.empty{text-align:center;padding:34px 16px;color:var(--mu);font-size:13px}.empty .i{width:44px;height:44px}.empty b{display:block;color:var(--tx);font-size:17px;margin:10px 0 4px}
+.vrow{display:flex;align-items:center;gap:10px}.vrow .ic{width:46px;height:46px;border-radius:14px;background:var(--sf2);display:grid;place-items:center;color:var(--ac)}
+.vrow>div:nth-child(2){flex:1;min-width:0}.vrow b{font-size:17px}.vrow small{display:block;color:var(--mu);font-size:12px}
+.card.sel{border-color:var(--ac)}
+.fuels{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.ve{color:var(--dg);font-size:13px;margin:0 0 10px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;max-width:560px;margin:0 auto;padding:10px 12px calc(12px + env(safe-area-inset-bottom,0px));background:var(--sf);border-top:1px solid var(--bd)}
+nav button{flex:1;min-height:56px;border-radius:18px;background:none;color:var(--mu);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:12px;font-weight:700}
+nav .i{width:24px;height:24px}nav button.on{background:var(--ac);color:var(--act)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-fuel" viewBox="0 0 24 24"><path d="M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M3 21h12M6 8h6M14 10h2a2 2 0 0 1 2 2v4a1.5 1.5 0 0 0 3 0V9l-3-3"/></symbol>
+<symbol id="i-car" viewBox="0 0 24 24"><path d="M5 16l1.6-5a2 2 0 0 1 1.9-1.4h7a2 2 0 0 1 1.9 1.4L19 16M3 16h18v3H3zM7 19v1.5M17 19v1.5M7 13h.01M17 13h.01"/></symbol>
+<symbol id="i-cash" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14a6 6 0 0 1 3.5 6"/></symbol>
+<symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h8a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h8"/></symbol>
+<symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path d="M4 18a9 9 0 1 1 16 0M12 14l4-4"/></symbol>
+<symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></symbol>
+<symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14M10 11v5M14 11v5"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12l5 5 9-9"/></symbol>
+<symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h11l3 3v15H5zM8 3v5h7M8 21v-7h8v7"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></symbol>
+</defs></svg>
+
+<div class="app">
+<header><div class="logo"><svg class="i"><use href="#i-fuel"/></svg></div><div><b>Combustible</b><small>Calculá y dividí el gasto</small></div></header>
+
+<section id="v-calc" class="view on"></section>
+
+<section id="v-history" class="view">
+  <div class="hd"><h1 class="t">Historial</h1><button id="hclear" class="pill" hidden></button></div>
+  <div id="hlist"></div>
+</section>
+
+<section id="v-vehicles" class="view">
+  <h1 class="t">Mis vehículos</h1>
+  <div id="vlist"></div>
+  <div id="vform" class="card" hidden>
+    <h2>Nuevo vehículo</h2>
+    <div class="fld"><label for="vn">Nombre</label><div class="box"><input id="vn" maxlength="24" placeholder="Ej: Sandero" autocomplete="off"></div></div>
+    <div class="row">
+      <div class="fld"><label for="vc">Consumo</label><div class="box"><input id="vc" inputmode="decimal" maxlength="8" placeholder="12"><span class="af">km/L</span></div></div>
+      <div class="fld"><label for="vp">Precio</label><div class="box"><span class="af">$</span><input id="vp" inputmode="decimal" maxlength="10" placeholder="1.800"><span class="af">/L</span></div></div>
+    </div>
+    <div class="q" style="margin-top:4px">Combustible preferido</div>
+    <div class="fuels" id="fuels"></div>
+    <p class="ve" id="verr"></p>
+    <div class="row"><button class="cta sec" id="vcancel" style="flex:1">Cancelar</button><button class="cta" id="vsave" style="flex:1">Guardar</button></div>
+  </div>
+  <button id="vadd" class="cta"><svg class="i"><use href="#i-plus"/></svg>Agregar vehículo</button>
+</section>
+</div>
+
+<nav>
+  <button data-t="calc" class="on"><svg class="i"><use href="#i-calc"/></svg>Calcular</button>
+  <button data-t="history"><svg class="i"><use href="#i-history"/></svg>Historial</button>
+  <button data-t="vehicles"><svg class="i"><use href="#i-car"/></svg>Vehículos</button>
+</nav>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const ico=n=>`<svg class="i"><use href="#i-${n}"/></svg>`;
+const K={s:'fc:settings:v1',h:'fc:history:v1',v:'fc:vehicles:v1'};
+const ld=(k,d)=>{try{const r=localStorage.getItem(k);return r?JSON.parse(r):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let S=Object.assign({price:'1.800',consumption:'12',mode:'budget',budget:'30.000',distance:'200',total:'30.000',people:4,splitOn:false,vehicleId:null},ld(K.s,{}));
+let H=ld(K.h,[]),V=ld(K.v,[]);if(!Array.isArray(H))H=[];if(!Array.isArray(V))V=[];
+
+/* ---------- formato y cálculo ---------- */
+function fmtNum(n,d=2){if(!isFinite(n))return'0';const[i,f='']=Math.abs(n).toFixed(d).split('.');const fr=f.replace(/0+$/,'');return(n<0?'-':'')+i.replace(/\B(?=(\d{3})+(?!\d))/g,'.')+(fr?','+fr:'')}
+const money=n=>'$'+fmtNum(n,Math.abs(n)<100?2:0),liters=n=>fmtNum(n,2)+' L',kmTxt=n=>'≈ '+(n>=10?fmtNum(Math.round(n),0):fmtNum(n,1))+' km',plural=n=>n===1?'persona':'personas';
+const p2=x=>String(x).padStart(2,'0');
+const fdate=i=>{const d=new Date(i);return`${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()} ${p2(d.getHours())}:${p2(d.getMinutes())}`};
+function parseNum(t){let s=String(t==null?'':t).trim().replace(/\s/g,'');if(!s)return NaN;if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');else if(/^\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');return/^(\d+\.?\d*|\.\d+)$/.test(s)?parseFloat(s):NaN}
+function chk(t){if(t===''||t==null)return'Completá este dato';const n=parseNum(t);if(isNaN(n))return'Ingresá un número válido';if(n<=0)return'Debe ser mayor a 0';return null}
+const LB={price:'Precio',consumption:'Consumo',budget:'Presupuesto',distance:'Distancia',total:'Gasto total',people:'Personas'};
+function compute(s){
+  const e={},sp=s.mode==='split';
+  if(!sp){e.price=chk(s.price);e.consumption=chk(s.consumption)}
+  if(s.mode==='budget')e.budget=chk(s.budget);
+  if(s.mode==='distance')e.distance=chk(s.distance);
+  if(sp)e.total=chk(s.total);
+  const show=sp||s.splitOn;
+  if(show&&!(Number.isInteger(s.people)&&s.people>=1))e.people='Mínimo 1 persona';
+  const bad=Object.keys(e).filter(k=>e[k]);
+  if(bad.length)return{bad,r:null};
+  const price=parseNum(s.price),c=parseNum(s.consumption),people=show?s.people:1;
+  let total,L=null,km=null,ck=null,c100=null;
+  if(sp)total=parseNum(s.total);
+  else{ck=price/c;c100=(price/c)*100;
+    if(s.mode==='budget'){total=parseNum(s.budget);L=total/price;km=L*c}
+    else{km=parseNum(s.distance);L=km/c;total=(km/c)*price}}
+  return{bad:[],r:{mode:s.mode,total,L,km,ck,c100,people,show,pp:total/people}};
+}
+
+/* ---------- formulario de cálculo ---------- */
+const fld=(id,label,pre,suf,big,ph)=>`<div class="fld${big?' big':''}" id="w-${id}"><label for="${id}">${label}</label><div class="box">${pre?`<span class="af">${pre}</span>`:''}<input id="${id}" inputmode="decimal" autocomplete="off" maxlength="12" placeholder="${ph||''}">${suf?`<span class="af">${suf}</span>`:''}</div><div class="er" id="e-${id}"></div></div>`;
+$('#v-calc').innerHTML=`
+<div class="card"><h2>${ico('car')}Datos del vehículo</h2><div class="chips" id="chips"></div>
+<div class="row">${fld('price','Precio del combustible','$','/L')}${fld('consumption','Consumo del vehículo','','km/L')}</div></div>
+<h3>¿Qué querés calcular?</h3>
+<div class="modes" id="modes"><button data-m="budget">${ico('cash')}Presupuesto</button><button data-m="distance">${ico('route')}Distancia</button><button data-m="split">${ico('users')}Dividir gasto</button></div>
+<div class="card">${fld('budget','¿Cuánto querés gastar?','$','',1,'30.000')}${fld('distance','¿Cuántos kilómetros querés recorrer?','','km',1,'200')}${fld('total','Gasto total','$','',1,'30.000')}
+<button class="tg" id="splitBtn">${ico('users')}<span>Dividir gasto</span><span id="tgi"></span></button>
+<div id="people"><div class="q">¿Entre cuántas personas?</div><div class="step"><button id="pm" aria-label="Menos">${ico('minus')}</button><span id="pn" data-k="pn"></span><button id="pp" aria-label="Más">${ico('plus')}</button></div></div></div>
+<div id="result"></div>`;
+
+const P={};let saved=false,st;
+function pop(root){root.querySelectorAll('[data-k]').forEach(e=>{const k=e.dataset.k,t=e.textContent;if(P[k]!==undefined&&P[k]!==t){e.classList.remove('pop');void e.offsetWidth;e.classList.add('pop')}P[k]=t})}
+const dv=(k,t,c)=>`<span class="${c||''}" data-k="${k}">${t}</span>`;
+const stat=(ic,l,k,v)=>`<div class="stat">${ico(ic)}<small>${l}</small><b>${dv(k,v)}</b></div>`;
+
+function renderResult(c){
+  const el=$('#result');
+  if(!c.r){el.innerHTML=`<div class="card warn">${ico('alert')}<div><b>Completá los datos para ver el resultado</b><small>Revisá: ${c.bad.map(k=>LB[k]).join(', ')}</small></div></div>`;return}
+  const r=c.r;let lbl,big,sub='';
+  if(r.mode==='budget'){lbl='Con eso podés recorrer aproximadamente';big=kmTxt(r.km)}
+  else if(r.mode==='distance'){lbl=`Para recorrer ${fmtNum(r.km,2)} km necesitás`;big=liters(r.L)}
+  else{lbl='Cada persona paga';big=money(r.pp);sub=`<div class="sub">Total ${money(r.total)} · ${r.people} ${plural(r.people)}</div>`}
+  const stats=r.mode==='split'?'':`<div class="stats">${r.mode==='budget'?stat('fuel','Litros','l',liters(r.L)):stat('cash','Costo total','t',money(r.total))}${stat('route','Por km','ck',money(r.ck))}${stat('gauge','Cada 100 km','c1',money(r.c100))}</div>`;
+  let h=`<div class="card hero"><div class="hl">${lbl}</div>${dv('big',big,'num')}${sub}${stats}</div>`;
+  if(r.show&&r.mode!=='split')h+=`<div class="card pp"><div><b>Cada persona paga</b><small>Total ${money(r.total)} · ${r.people} ${plural(r.people)}</small></div>${dv('pp',money(r.pp),'v')}</div>`;
+  h+=`<button class="cta${saved?' ok':''}" id="save">${ico(saved?'check':'save')}${saved?'Guardado en el historial':'Guardar en el historial'}</button>`;
+  el.innerHTML=h;
+}
+function refresh(persist=true){
+  if(persist)sv(K.s,S);
+  const sp=S.mode==='split',vis={budget:'budget',distance:'distance',split:'total'}[S.mode];
+  $$('#modes button').forEach(b=>b.classList.toggle('on',b.dataset.m===S.mode));
+  ['budget','distance','total'].forEach(k=>$('#w-'+k).hidden=k!==vis);
+  $('#splitBtn').hidden=sp;$('#splitBtn').classList.toggle('on',S.splitOn);$('#tgi').innerHTML=ico(S.splitOn?'check':'plus');
+  $('#people').hidden=!(sp||S.splitOn);$('#pn').textContent=S.people;$('#pm').disabled=S.people<=1;$('#pp').disabled=S.people>=99;
+  ['price','consumption','budget','distance','total'].forEach(id=>{const e=S[id]!==''?chk(S[id]):null;$('#e-'+id).textContent=e||'';$('#'+id).parentElement.classList.toggle('err',!!e)});
+  $('#chips').hidden=!V.length;
+  $('#chips').innerHTML=V.map(v=>`<button class="chip${S.vehicleId===v.id?' on':''}" data-v="${v.id}">${ico('car')}${esc(v.name)}</button>`).join('');
+  renderResult(compute(S));pop($('#v-calc'));
+}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function syncInputs(){['price','consumption','budget','distance','total'].forEach(id=>$('#'+id).value=S[id])}
+
+['price','consumption','budget','distance','total'].forEach(id=>{
+  const i=$('#'+id);
+  i.addEventListener('input',()=>{const v=i.value.replace(/[^0-9.,]/g,'');if(v!==i.value)i.value=v;S[id]=v;if(id==='price'||id==='consumption')S.vehicleId=null;saved=false;refresh()});
+  i.addEventListener('blur',()=>{const n=parseNum(i.value);if(n>0){i.value=fmtNum(n,2);S[id]=i.value;refresh()}});
+});
+$('#modes').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b){S.mode=b.dataset.m;saved=false;refresh()}});
+$('#splitBtn').onclick=()=>{S.splitOn=!S.splitOn;refresh()};
+$('#pm').onclick=()=>{S.people=Math.max(1,S.people-1);refresh()};
+$('#pp').onclick=()=>{S.people=Math.min(99,S.people+1);refresh()};
+$('#chips').addEventListener('click',e=>{const b=e.target.closest('[data-v]');if(b)useVehicle(b.dataset.v)});
+$('#result').addEventListener('click',e=>{
+  if(!e.target.closest('#save'))return;
+  const r=compute(S).r;if(!r)return;
+  H.unshift({id:uid(),date:new Date().toISOString(),mode:r.mode,total:r.total,liters:r.L,km:r.km,people:r.people,perPerson:r.pp});
+  H=H.slice(0,50);sv(K.h,H);saved=true;refresh();clearTimeout(st);st=setTimeout(()=>{saved=false;refresh(false)},1800);
+});
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function useVehicle(id){const v=V.find(x=>x.id===id);if(!v)return;S.price=fmtNum(v.price,2);S.consumption=fmtNum(v.consumption,2);S.vehicleId=v.id;saved=false;syncInputs();refresh()}
+
+/* ---------- historial ---------- */
+const MODE={budget:'Presupuesto',distance:'Distancia',split:'División de gasto'};
+let armClear=false,armVeh=null,armT;
+function arm(fn){clearTimeout(armT);armT=setTimeout(()=>{armClear=false;armVeh=null;fn()},3000)}
+function renderH(){
+  $('#hclear').hidden=!H.length;$('#hclear').classList.toggle('arm',armClear);
+  $('#hclear').innerHTML=armClear?'¿Seguro? Tocá de nuevo':ico('trash')+'Borrar todo';
+  $('#hlist').innerHTML=H.length?H.map(h=>`<div class="card"><div class="top"><div><b class="mu">${MODE[h.mode]||'Cálculo'}</b><small>${fdate(h.date)}</small></div><button class="ib" data-del="${h.id}" aria-label="Eliminar registro">${ico('trash')}</button></div>
+<div class="tot">${money(h.total)}</div><div class="grid">
+<div><small>${ico('fuel')}Litros</small><b>${h.liters!=null?liters(h.liters):'—'}</b></div>
+<div><small>${ico('route')}Distancia</small><b>${h.km!=null?kmTxt(h.km):'—'}</b></div>
+<div><small>${ico('users')}Personas</small><b>${h.people} ${plural(h.people)}</b></div>
+<div><small>${ico('cash')}Por persona</small><b>${money(h.perPerson)}</b></div></div></div>`).join('')
+  :`<div class="card empty">${ico('history')}<b>Todavía no hay cálculos</b>Tocá “Guardar en el historial” en Calcular.</div>`;
+}
+$('#hlist').addEventListener('click',e=>{const b=e.target.closest('[data-del]');if(!b)return;H=H.filter(x=>x.id!==b.dataset.del);sv(K.h,H);renderH()});
+$('#hclear').onclick=()=>{if(!armClear){armClear=true;arm(renderH);renderH();return}armClear=false;H=[];sv(K.h,H);renderH()};
+
+/* ---------- vehículos ---------- */
+const FUELS=['Nafta súper','Nafta premium','Diésel','GNC'];let fuel=FUELS[0];
+function renderFuels(){$('#fuels').innerHTML=FUELS.map(f=>`<button class="chip${f===fuel?' on':''}" data-f="${f}">${f}</button>`).join('')}
+function renderV(){
+  $('#vlist').innerHTML=V.length?V.map(v=>{const on=v.id===S.vehicleId;return`<div class="card${on?' sel':''}"><div class="vrow"><div class="ic">${ico('car')}</div><div><b>${esc(v.name)}</b><small>${fmtNum(v.consumption,2)} km/L · ${v.fuel} · $${fmtNum(v.price,2)}/L</small></div><button class="ib${armVeh===v.id?' arm':''}" data-vdel="${v.id}" aria-label="Eliminar vehículo">${armVeh===v.id?ico('check'):ico('trash')}</button></div>
+<button class="cta${on?' ok':''}" data-use="${v.id}" style="margin-top:12px">${ico(on?'check':'fuel')}${on?'En uso':'Usar este vehículo'}</button></div>`}).join('')
+  :`<div class="card empty" ${$('#vform').hidden?'':'hidden'}>${ico('car')}<b>Sin vehículos guardados</b>Guardá tu auto para cargar consumo y precio con un toque.</div>`;
+}
+$('#vlist').addEventListener('click',e=>{
+  const u=e.target.closest('[data-use]');if(u){useVehicle(u.dataset.use);tab('calc');return}
+  const d=e.target.closest('[data-vdel]');if(!d)return;
+  const id=d.dataset.vdel;
+  if(armVeh!==id){armVeh=id;arm(renderV);renderV();return}
+  armVeh=null;V=V.filter(x=>x.id!==id);if(S.vehicleId===id)S.vehicleId=null;sv(K.v,V);sv(K.s,S);renderV();refresh();
+});
+$('#fuels').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(b){fuel=b.dataset.f;renderFuels()}});
+$('#vc').oninput=$('#vp').oninput=e=>{e.target.value=e.target.value.replace(/[^0-9.,]/g,'')};
+function closeForm(){$('#vform').hidden=true;$('#vadd').hidden=false;['vn','vc','vp'].forEach(i=>$('#'+i).value='');$('#verr').textContent='';fuel=FUELS[0];renderV()}
+$('#vadd').onclick=()=>{$('#vform').hidden=false;$('#vadd').hidden=true;renderFuels();renderV();$('#vn').focus()};
+$('#vcancel').onclick=closeForm;
+$('#vsave').onclick=()=>{
+  const n=$('#vn').value.trim(),c=parseNum($('#vc').value),p=parseNum($('#vp').value),m=t=>$('#verr').textContent=t;
+  if(!n)return m('Ingresá un nombre para el vehículo');
+  if(!(c>0))return m('El consumo debe ser mayor a 0');
+  if(!(p>0))return m('El precio del combustible debe ser mayor a 0');
+  V.push({id:uid(),name:n,consumption:c,price:p,fuel});sv(K.v,V);closeForm();refresh(false);
+};
+
+/* ---------- navegación ---------- */
+function tab(t){
+  $$('.view').forEach(v=>v.classList.toggle('on',v.id==='v-'+t));
+  $$('nav button').forEach(b=>b.classList.toggle('on',b.dataset.t===t));
+  if(t==='history')renderH();if(t==='vehicles')renderV();
+  window.scrollTo(0,0);
+}
+$('nav').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(b)tab(b.dataset.t)});
+
+syncInputs();refresh(false);
+</script>
+</body>
+</html>
